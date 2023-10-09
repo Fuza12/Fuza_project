@@ -29,23 +29,23 @@ public class Pedido_Controller {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Long save(@RequestBody @Valid PedidoDTO dto){
-           Pedido pedido = p_serv.salvar( dto );
-           return pedido.getId();
+    public Long save(@RequestBody @Valid PedidoDTO dto) {
+        Pedido pedido = p_serv.salvar(dto);
+        return pedido.getId();
     }
 
     @GetMapping("{id}")
-    public InformacoesPedidosDTO GetById(@PathVariable Long id){
+    public InformacoesPedidosDTO GetById(@PathVariable Long id) {
         return p_serv
                 .ObterPedidoCompleto(id)
                 .map(p -> converter(p))
-                .orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido nao encontrado."));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido nao encontrado."));
     }
 
     @PatchMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void UpdateStaus(@PathVariable Long id,
-                            @RequestBody @Valid AtualizacaoStatusPedidoDTO dto){
+                            @RequestBody @Valid AtualizacaoStatusPedidoDTO dto) {
         String novoStatus = dto.getNovoStatus();
 
         p_serv.AtualizarStatus(id, StatusPedido.valueOf(novoStatus));
@@ -53,31 +53,31 @@ public class Pedido_Controller {
     }
 
 
-    private InformacoesPedidosDTO converter(Pedido pedido){
-          return   InformacoesPedidosDTO
-                    .builder()
-                    .codigo(pedido.getId())
-                    .dataPedido(pedido.getData_pedido().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
-                    .cpf(pedido.getCliente().getCpf())
-                    .nome(pedido.getCliente().getNome())
-                    .total(pedido.getTotal())
-                    .status(pedido.getStatusPedido().name())
-                    .items(converter(pedido.getItemPedidos()))
-                    .build();
+    private InformacoesPedidosDTO converter(Pedido pedido) {
+        return InformacoesPedidosDTO
+                .builder()
+                .codigo(pedido.getId())
+                .dataPedido(pedido.getData_pedido().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+                .cpf(pedido.getCliente().getCpf())
+                .nome(pedido.getCliente().getNome())
+                .total(pedido.getTotal())
+                .status(pedido.getStatusPedido().name())
+                .items(converter(pedido.getItemPedidos()))
+                .build();
     }
 
-    private List<InformacoesItemPedidosDTO> converter(List<Item_Pedido> itens){
-        if (CollectionUtils.isEmpty(itens)){
+    private List<InformacoesItemPedidosDTO> converter(List<Item_Pedido> itens) {
+        if (CollectionUtils.isEmpty(itens)) {
             return Collections.emptyList();
         }
 
         return itens
                 .stream()
                 .map(
-                    item -> InformacoesItemPedidosDTO
-                            .builder().descricaoProduto(item.getProduto().getDescricao())
-                            .precoUnitario(item.getProduto().getPreco_unitario())
-                            .build()
+                        item -> InformacoesItemPedidosDTO
+                                .builder().descricaoProduto(item.getProduto().getDescricao())
+                                .precoUnitario(item.getProduto().getPreco_unitario())
+                                .build()
                 ).collect(Collectors.toList());
     }
 

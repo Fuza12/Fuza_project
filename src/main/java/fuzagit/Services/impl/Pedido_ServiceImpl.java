@@ -17,6 +17,7 @@ import fuzagit.exception.RegraNegocioException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -38,10 +39,8 @@ public class Pedido_ServiceImpl implements Pedido_Service {
         Long idcliente = dto.getCliente();
         Cliente cliente = c_repo
                 .findById(idcliente)
-                .orElseThrow( () -> new
+                .orElseThrow(() -> new
                         RegraNegocioException("Código de Cliente inválido"));
-
-
 
 
         Pedido pedido = new Pedido();
@@ -59,13 +58,13 @@ public class Pedido_ServiceImpl implements Pedido_Service {
         return pedido;
     }
 
-    private List<Item_Pedido> converterItens(Pedido pedido, List<ItensPedidoDTO> itensdto){
-        if (itensdto.isEmpty()){
+    private List<Item_Pedido> converterItens(Pedido pedido, List<ItensPedidoDTO> itensdto) {
+        if (itensdto.isEmpty()) {
             throw new RegraNegocioException("Não é possivel realizar um pedido sem itens!!");
         }
         return itensdto
                 .stream()
-                .map( dto -> {
+                .map(dto -> {
                     Long idProduto = dto.getProduto();
                     Produto produto = prod_repo
                             .findById(idProduto)
@@ -74,32 +73,32 @@ public class Pedido_ServiceImpl implements Pedido_Service {
                                             "Código de Produto inválido: " + idProduto
                                     ));
 
-            Item_Pedido itemPedido = new Item_Pedido();
-            itemPedido.setQuantidade(dto.getQuantidade());
-            itemPedido.setPedido(pedido);
-            itemPedido.setProduto(produto);
-            return itemPedido;
-        }).collect(Collectors.toList());
+                    Item_Pedido itemPedido = new Item_Pedido();
+                    itemPedido.setQuantidade(dto.getQuantidade());
+                    itemPedido.setPedido(pedido);
+                    itemPedido.setProduto(produto);
+                    return itemPedido;
+                }).collect(Collectors.toList());
 
     }
 
 
-            @Override
-            public Optional<Pedido> ObterPedidoCompleto(Long id) {
-                return p_repo.findByIdFetchItens(id);
+    @Override
+    public Optional<Pedido> ObterPedidoCompleto(Long id) {
+        return p_repo.findByIdFetchItens(id);
 
 
-            }
+    }
 
     @Override
     @Transactional
     public void AtualizarStatus(Long id, StatusPedido statusPedido) {
         p_repo
                 .findById(id)
-                .map( pedido ->{
+                .map(pedido -> {
                     pedido.setStatusPedido(statusPedido);
-                return p_repo.save(pedido);
-        }).orElseThrow( () -> new PedidoNaoEncontradoException() ) ;
-        }
+                    return p_repo.save(pedido);
+                }).orElseThrow(() -> new PedidoNaoEncontradoException());
     }
+}
 

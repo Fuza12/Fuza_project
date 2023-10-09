@@ -1,8 +1,8 @@
 package fuzagit.Api.Controllers;
 
 
-import fuzagit.Domain.Repositorios.cliente_repositorio;
 import fuzagit.Domain.Models.Cliente;
+import fuzagit.Domain.Repositorios.cliente_repositorio;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -38,9 +38,10 @@ public class Cliente_Controller {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         c_repo.findById(id)
-                .map(cliente -> { c_repo.delete(cliente);
+                .map(cliente -> {
+                    c_repo.delete(cliente);
                     return cliente;
-                                     })
+                })
                 .orElseThrow(() ->
                         new ResponseStatusException(HttpStatus.NOT_FOUND,
                                 "Cliente não encontrado"));
@@ -48,25 +49,25 @@ public class Cliente_Controller {
 
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable Long id ,
+    public void update(@PathVariable Long id,
                        @RequestBody
-                       @Valid Cliente cliente){
-                     c_repo
-                     .findById(id)
-                     .map(clientExistente -> {
-                         cliente.setId(clientExistente.getId());
-                         c_repo.save(cliente);
-                         return ResponseEntity.noContent().build();
+                       @Valid Cliente cliente) {
+        c_repo
+                .findById(id)
+                .map(clientExistente -> {
+                    cliente.setId(clientExistente.getId());
+                    c_repo.save(cliente);
+                    return ResponseEntity.noContent().build();
 
-                     }).orElseThrow(() ->
-                                     new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                             "Cliente não encontrado"));
+                }).orElseThrow(() ->
+                        new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                "Cliente não encontrado"));
     }
 
     @GetMapping
-    public List<Cliente> find(Cliente filtro){
+    public List<Cliente> find(Cliente filtro) {
         ExampleMatcher exampleMatcher = ExampleMatcher.
-                 matching()
+                matching()
                 .withIgnoreCase()
                 .withStringMatcher(ExampleMatcher
                         .StringMatcher.CONTAINING);

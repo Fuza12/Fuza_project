@@ -1,8 +1,8 @@
 package fuzagit.Api.Controllers;
 
 
-import fuzagit.Domain.Repositorios.produto_repositorio;
 import fuzagit.Domain.Models.Produto;
+import fuzagit.Domain.Repositorios.produto_repositorio;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -39,7 +39,8 @@ public class Produto_Controller {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         p_repo.findById(id)
-                .map(produto -> { p_repo.delete(produto);
+                .map(produto -> {
+                    p_repo.delete(produto);
                     return produto;
                 })
                 .orElseThrow(() ->
@@ -49,9 +50,9 @@ public class Produto_Controller {
 
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable Long id ,
+    public void update(@PathVariable Long id,
                        @RequestBody
-                       @Valid Produto produto){
+                       @Valid Produto produto) {
         p_repo
                 .findById(id)
                 .map(ProductExistente -> {
@@ -65,7 +66,7 @@ public class Produto_Controller {
     }
 
     @GetMapping
-    public List<Produto> find(Produto filtro){
+    public List<Produto> find(Produto filtro) {
         ExampleMatcher exampleMatcher = ExampleMatcher.
                 matching()
                 .withIgnoreCase()

@@ -14,7 +14,7 @@ public interface pedido_repositorio extends JpaRepository<Pedido, Long> {
     List<Pedido> findByCliente(Cliente cliente);
 
     @Query("select  p from Pedido p left join fetch p.itemPedidos where p.id =:id")
-    Optional<Pedido>findByIdFetchItens(@Param("id") Long id);
+    Optional<Pedido> findByIdFetchItens(@Param("id") Long id);
 
 
 }

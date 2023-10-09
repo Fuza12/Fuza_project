@@ -2,7 +2,7 @@ package fuzagit.exception;
 
 public class PedidoNaoEncontradoException extends RuntimeException {
 
-    public PedidoNaoEncontradoException(){
+    public PedidoNaoEncontradoException() {
         super("Pedido não encontrado.");
     }
 }

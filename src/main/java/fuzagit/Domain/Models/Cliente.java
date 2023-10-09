@@ -18,9 +18,10 @@ import java.util.Set;
 @AllArgsConstructor
 public class Cliente {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long    id;
+    private Long id;
 
     @Column(name = "cpf", length = 11)
     @NotEmpty(message = "{campo.cpf.obrigatorio}")
@@ -29,7 +30,7 @@ public class Cliente {
 
     @Column(name = "nome", length = 100)
     @NotEmpty(message = "{campo.nome.obrigatorio}")
-    private String  nome;
+    private String nome;
 
     @JsonIgnore
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)

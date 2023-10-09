@@ -17,23 +17,25 @@ import java.util.List;
 @AllArgsConstructor
 public class Pedido {
 
-    @Id                         @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column                     (name = "id")
-    private  Long              id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
 
-    @ManyToOne                  @JoinColumn(name = "cliente_id")
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    @Column                     (name = "data_pedido")
-    private  LocalDate         data_pedido;
+    @Column(name = "data_pedido")
+    private LocalDate data_pedido;
 
-    @Column                     (name = "total", precision = 20, scale = 2)
-    private  BigDecimal        total;
+    @Column(name = "total", precision = 20, scale = 2)
+    private BigDecimal total;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private StatusPedido statusPedido;
 
-    @OneToMany                  (mappedBy = "pedido")
-    private  List<Item_Pedido> itemPedidos;
+    @OneToMany(mappedBy = "pedido")
+    private List<Item_Pedido> itemPedidos;
 }
