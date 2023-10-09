@@ -1,6 +1,6 @@
-package fuzagit.Repositorios;
+package fuzagit.Domain.Repositorios;
 
-import fuzagit.models.Cliente;
+import fuzagit.Domain.Models.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

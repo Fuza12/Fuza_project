@@ -1,12 +1,15 @@
-package fuzagit.models;
+package fuzagit.Domain.Models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "item_pedido")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Item_Pedido {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
